@@ -4,7 +4,7 @@ import Foundation
 public class ElevenlabsSwift {
     private var elevenLabsAPI: String
     
-    required init(elevenLabsAPI: String) {
+    public required init(elevenLabsAPI: String) {
         self.elevenLabsAPI = elevenLabsAPI
     }
     
