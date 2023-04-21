@@ -260,13 +260,13 @@ public enum WebAPIError: Error {
 
 
 public struct VoicesResponse: Codable {
-    let voices: [Voice]
+    public let voices: [Voice]
 }
 
 
 public struct Voice: Codable, Identifiable, Hashable {
-    let voice_id: String
-    let name: String
+    public let voice_id: String
+    public let name: String
     
     public var id: String { voice_id }
 
@@ -274,6 +274,6 @@ public struct Voice: Codable, Identifiable, Hashable {
 
 
 public struct SpeechRequest: Codable {
-    let text: String
-    let voice_settings: [String: Int]
+    public let text: String
+    public let voice_settings: [String: Int]
 }
