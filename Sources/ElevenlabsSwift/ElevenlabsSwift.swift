@@ -98,11 +98,11 @@ public class ElevenlabsSwift {
         return data
     }
 
-    public func uploadVoice(name: String, description: String, fileURL: URL, completion: @escaping (Bool) -> Void)  {
+    public func uploadVoice(name: String, description: String, fileURL: URL, completion: @escaping (String?) -> Void)  {
         
         guard let url = URL(string: "\(baseURL)/v1/voices/add") else {
             print("Invalid URL")
-            completion(false)
+            completion(nil)
             return
         }
 
@@ -138,20 +138,24 @@ public class ElevenlabsSwift {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error: \(error)")
-                completion(false)
+                completion(nil)
             } else if let data = data {
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     do {
-                        let json = try JSONSerialization.jsonObject(with: data, options: [])
-                        print(json)
-                        completion(true)
+                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
+                            print(json)
+                            completion(json["voice_id"])
+                        } else {
+                            completion(nil)
+                        }
+                       
                     } catch {
                         print("Error decoding JSON: \(error)")
-                        completion(false)
+                        completion(nil)
                     }
                 } else {
                     print("Error: Invalid status code")
-                    completion(false)
+                    completion(nil)
                 }
             }
         }
