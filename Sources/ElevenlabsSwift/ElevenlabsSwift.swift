@@ -71,7 +71,7 @@ public class ElevenlabsSwift {
     
     private func saveDataToTempFile(data: Data) throws -> URL {
         let tempDirectoryURL = FileManager.default.temporaryDirectory
-        let randomFilename = UUID().uuidString
+        let randomFilename = "\(UUID().uuidString).mpg"
         let fileURL = tempDirectoryURL.appendingPathComponent(randomFilename)
         print(data.count)
         try data.write(to: fileURL)
