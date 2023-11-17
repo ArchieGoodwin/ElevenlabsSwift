@@ -35,7 +35,7 @@ public class ElevenlabsSwift {
         
     }
     
-    public func textToSpeech(voice_id: String, text: String) async throws -> URL
+    public func textToSpeech(voice_id: String, text: String, model: String? = nil) async throws -> URL
     {
         
         let session = URLSession.shared
@@ -46,8 +46,8 @@ public class ElevenlabsSwift {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("audio/mpeg", forHTTPHeaderField: "Accept")
 
-        let parameters: SpeechRequest = SpeechRequest(text: text, voice_settings: ["stability" : 0, "similarity_boost": 0])
-        
+        let parameters: SpeechRequest = SpeechRequest(text: text, voice_settings: ["stability" : 0, "similarity_boost": 0], model: model)
+
         guard let jsonBody = try? JSONEncoder().encode(parameters) else {
             throw WebAPIError.unableToEncodeJSONData
         }
@@ -288,9 +288,11 @@ public struct Voice: Codable, Identifiable, Hashable {
 public struct SpeechRequest: Codable {
     public let text: String
     public let voice_settings: [String: Int]
-    
-    public init(text: String, voice_settings: [String : Int]) {
+    public let model: String?
+
+    public init(text: String, voice_settings: [String : Int], model: String?) {
         self.text = text
         self.voice_settings = voice_settings
+        self.model = model
     }
 }
